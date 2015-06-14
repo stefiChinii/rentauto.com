@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="rent.Empresa" table="empresas">
+		<id name="id" type="java.lang.Integer">
+			<column name="E_ID" />
+			<generator class="identity" />
+		</id>
+
+		<property name="cuit" type="string">
+			<column name="CUIT" length="20" not-null="true" unique="false" />
+		</property>
+
+		<property name="nombreEmpresa" type="string">
+			<column name="NOMREEMPRESA" length="20" not-null="true" unique="false" />
+		</property>
+		<property name="cantidadMaximaDeReservasActivas" type="int">
+			<column name="CANTiDADMAXIMADERESERVASACTIVAS" not-null="false" unique="false" />
+		</property>
+		<property name="valorMaximoPorDia" type="double">
+			<column name="VALORMAXIMOPORDIA" not-null="false" unique="false" />
+		</property>
+		<bag name="reservas" order-by="fecha"  cascade="all">
+			<key column="reserva" not-null="false"/>
+			<one-to-many class="rent.Reserva"></one-to-many>
+		</bag>
+        <bag name="usuarios" order-by="id"  cascade="all">
+			<key column="usuario" not-null="false"/>
+			<one-to-many class="register.Usuario"></one-to-many>
+		</bag>
+		<bag name="categoriasAdmitidas" order-by="id"  cascade="all">
+			<key column="auto" not-null="false"/>
+			<one-to-many class="rent.Categoria"></one-to-many>
+		</bag>
+
+	</class>
+</hibernate-mapping>

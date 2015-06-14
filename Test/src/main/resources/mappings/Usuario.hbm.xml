@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+	<class name="register.Usuario" table="usuario">
+		<id name="id" type="java.lang.Integer">
+			<column name="U_ID" />
+			<generator class="identity" />
+		</id>
+
+		<property name="nombre" type="string">
+			<column name="NOMBRE" length="20" not-null="true" unique="false" />
+		</property>
+
+		<property name="apellido" type="string">
+			<column name="APELLIDO" length="20" not-null="true" unique="false" />
+		</property>
+		<property name="username" type="string">
+			<column name="USERNAME" length="20" not-null="false" unique="false" />
+		</property>
+		<property name="email" type="string">
+			<column name="EMAIL" length="20" not-null="false" unique="false" />
+		</property>
+		<property name="fnac" type="int">
+			<column name="FNAC" not-null="false" unique="false" />
+		</property>
+		<property name="password" type="string">
+			<column name="PASSWORD" length="20" not-null="false" unique="false" />
+		</property>
+		<property name="validado" type="boolean">
+			<column name="VALIDADO" not-null="false" unique="false" />
+		</property>
+		<bag name="reservas" order-by="fecha"  cascade="all">
+			<key column="reservas" not-null="false"/>
+			<one-to-many class="rent.Reserva" ></one-to-many>
+		</bag>
+
+	</class>
+</hibernate-mapping>

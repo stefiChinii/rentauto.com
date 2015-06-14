@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="rent.Reserva" table="reserva">
+		<id name="numeroSolicitud" type="java.lang.Integer">
+			<column name="C_ID" />
+			<generator class="identity" />
+		</id>
+		<many-to-one name="origen" column="origen" cascade="all"
+			class="rent.Ubicacion" not-null="true" />
+		<many-to-one name="destino" column="destino" cascade="all"
+			class="rent.Ubicacion" not-null="true" />
+		<property name="inicio" type="java.util.Date">
+			<column name="INICIO" not-null="false" unique="false" />
+		</property>
+		<property name="fin" type="java.util.Date">
+			<column name="FIN" not-null="false" unique="false" />
+		</property>
+		<many-to-one name="auto" column="auto" cascade="all"
+			class="rent.Auto" not-null="true" />
+		<many-to-one name="usuario" column="usuario" cascade="all"
+		  class="register.Usuario" not-null="false" />
+		<joined-subclass name="rent.ReservaEmpresarial" table="reservaEmpresarial">
+			<key column="C_ID" />
+			<property name="nombreContacto" type="string">
+			<column name="NOMBRECONTACTO" not-null="false" unique="false" />
+		</property>
+		<property name="cargoContacto" type="string">
+			<column name="CARGODECONTACTO" not-null="false" unique="false" />
+		</property>	
+		<many-to-one name="empresa" column="empresa" cascade="all"
+			class="rent.Empresa" not-null="true" />
+			 	
+		</joined-subclass>
+
+	</class>
+</hibernate-mapping>
