@@ -108,9 +108,9 @@ class UsuarioHome {
 	
 	def existeMensaje(Mensaje msj){
 		
-	var emisorNode= getNodo(msj.getEmisor)
-	
-	nodosRelacionados(emisorNode, TipoDeRelaciones.ENVIA_MENSAJE, Direction.OUTGOING).toList.map[crearMensaje].contains(msj)
+		var emisorNode= getNodo(msj.getEmisor)
+		
+		nodosRelacionados(emisorNode, TipoDeRelaciones.ENVIA_MENSAJE, Direction.OUTGOING).toList.map[crearMensaje].contains(msj)
 		
 	}
  
