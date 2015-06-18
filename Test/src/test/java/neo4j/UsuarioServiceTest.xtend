@@ -8,9 +8,7 @@ import sistemaRentauto.Usuario
 
 class UsuarioServiceTest {
 	/*TODO
-	 * crear las instancias para los tests(before)
 	 * hacer los test, tanto para los casos favorables como para los que no (preguntar)  (tests)
-	 * hacer el after.
 	 */
 	 
 	 UsuarioService service
@@ -20,17 +18,17 @@ class UsuarioServiceTest {
 	 Usuario emanuel
 	 Usuario rodrigo
 	 
-	/* @Test
+	 @Test
 	def void testAgregarAmigo(){
 		service.amigoDe(valeria, lucas)
-		
-		Assert.assertTrue (service.esAmigoDe(valeria, lucas))
-	}*/
+		var resultado= service.amigosDe(valeria)
+		Assert.assertTrue (resultado.contains(lucas))
+	}
 	
 	@Test
 	def void testListaAmigos(){
 		var resultado= service.amigosDe(stefania)
-		Assert.assertEquals(3,resultado.size)
+		Assert.assertEquals(3,resultado.length)
 		Assert.assertTrue(resultado.contains(emanuel))
 		Assert.assertTrue(resultado.contains(valeria))
 		Assert.assertTrue(resultado.contains(lucas))
@@ -41,11 +39,18 @@ class UsuarioServiceTest {
 	 def void todosConLosQueEstoyConectadoTest(){
 	 	var resultado= service.todasLasPersonasConLasQueTengoContacto(stefania)
 	 	
-	 	Assert.assertEquals(4,resultado.size)
+	 	Assert.assertEquals(4,resultado.length)
 	 	Assert.assertTrue(resultado.contains(emanuel))
 		Assert.assertTrue(resultado.contains(valeria))
 		Assert.assertTrue(resultado.contains(lucas))
 		Assert.assertTrue(resultado.contains(rodrigo))
+	 }
+	 
+	 @Test
+	 def void enviarMensajeTest(){
+	 	var Mensaje mensaje= new Mensaje(stefania, valeria, "hola, cuando nos vemos? :)")
+	 	service.enviarMensaje(mensaje)
+	 	Assert.assertTrue(service.existeMensaje(mensaje))
 	 }
 	 
 	 
@@ -64,22 +69,32 @@ class UsuarioServiceTest {
 		stefania = new Usuario => [
 			nombre = "Stefania"
 			apellido = "Chiniewicz"
+			username= "stefi"
 		];
 		
 		valeria = new Usuario => [
 			nombre = "Valeria"
 			apellido = "PÃ©rez"
+			username= "vale"
 		];
 		
 		lucas = new Usuario => [
 			nombre = "Lucas"
 			apellido = "PÃ©rez"
+			username= "lucas"
 		];
 		
 		emanuel = new Usuario => [
 			nombre = "Emanuel"
 			apellido = "PÃ©rez"
+			username= "ema"
 		];
+		
+		rodrigo= new Usuario => [
+			nombre = "Rodrigo"
+			apellido = "PÃ©rez"
+			username= "obiwan"
+		]
 		
 		service = new UsuarioService
 		service.crearNodo(stefania)

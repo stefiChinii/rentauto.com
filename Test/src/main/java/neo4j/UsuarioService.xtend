@@ -39,6 +39,9 @@ class UsuarioService {
 		Neo4JService.run[home(it).enviarMsj(mensaje)]
 	}
 	
+	def existeMensaje(Mensaje mensaje){
+		Neo4JService.run[home(it).existeMensaje(mensaje)]
+	}
 
 
 /*

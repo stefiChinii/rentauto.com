@@ -10,7 +10,7 @@ import org.neo4j.graphdb.Node
 import org.neo4j.graphdb.RelationshipType
 import org.neo4j.graphdb.traversal.Evaluators
 import org.neo4j.graphdb.traversal.TraversalDescription
-import org.neo4j.graphdb.traversal.Traverser
+import java.util.ArrayList
 
 @Accessors
 class UsuarioHome {
@@ -25,7 +25,7 @@ class UsuarioHome {
 	}
 	
 	def msjLabel(){
-		DynamicLabel.label("msg")
+		DynamicLabel.label("msje")
 	}
 
 	def eliminarNodo(Usuario usuario) {
@@ -41,7 +41,7 @@ class UsuarioHome {
 		}
 
 	def getNodo(Usuario usuario) {
-		graph.findNodes(userLabel, "userName",usuario.username).head
+		graph.findNodes(userLabel, "username",usuario.username).head
 	}
 	
 	def getNodo(Mensaje msj){
@@ -53,16 +53,12 @@ class UsuarioHome {
 		node.setProperty("nombre", usuario.nombre)
 		node.setProperty("apellido", usuario.apellido)
 		node.setProperty("username", usuario.username)
-		node.setProperty("email", usuario.email)
-		node.setProperty("fnac", usuario.fnac)
-		node.setProperty("password", usuario.password)
 	}
 	
 	def crearNodo(Mensaje msj){
 		val node= graph.createNode(msjLabel)
-		node.setProperty("emisor", msj.emisor)
-		node.setProperty("receptor", msj.receptor)
 		node.setProperty("mensaje", msj.mensaje)
+		node
 	}
 
 	def crearUsuario(Node usuario) {
@@ -70,16 +66,11 @@ class UsuarioHome {
 			nombre = usuario.getProperty("nombre") as String
 			apellido = usuario.getProperty("apellido") as String
 			username= usuario.getProperty("username") as String
-			email= usuario.getProperty("email") as String
-			fnac= usuario.getProperty("fnac") as Integer
-			password= usuario.getProperty("password") as String
 		]
 	}
 	
 	def crearMensaje(Node mensaje){
 		new Mensaje => [
-			emisor= mensaje.getProperty("emisor") as Usuario
-			receptor= mensaje.getProperty("receptor") as Usuario
 			mensaje= mensaje.getProperty("mensaje") as String
 		]
 	}
@@ -96,7 +87,7 @@ class UsuarioHome {
 	/* requerimiento 2 */
 	
 	def amigosDe(Usuario usuario){
-		amigosDe(getNodo(usuario)).toList
+		amigosDe(getNodo(usuario)).map[crearUsuario].toList
 	}
 	
 	def amigosDe(Node usuario){
@@ -109,9 +100,18 @@ class UsuarioHome {
 		var emisor = getNodo(mensaje.emisor)
 		var receptor = getNodo(mensaje.receptor)
 		//CREAR NODO MSJ
-		var msg= getNodo(mensaje)
+		var msg= crearNodo(mensaje)
 		emisor.createRelationshipTo(msg, TipoDeRelaciones.ENVIA_MENSAJE);
 		receptor.createRelationshipTo(msg, TipoDeRelaciones.RECIBE_MENSAJE);
+	}
+	
+	
+	def existeMensaje(Mensaje msj){
+		
+	var emisorNode= getNodo(msj.getEmisor)
+	
+	nodosRelacionados(emisorNode, TipoDeRelaciones.ENVIA_MENSAJE, Direction.OUTGOING).toList.map[crearMensaje].contains(msj)
+		
 	}
  
  /*requerimiento 4 */
@@ -127,8 +127,10 @@ class UsuarioHome {
 	            .relationships( TipoDeRelaciones.ES_AMIGO_DE, Direction.OUTGOING )
 	            .evaluator( Evaluators.excludeStartPosition() )
 	     		
-	     		td.traverse( usuario ).toList()
-	}
+	     		val r = td.traverse( usuario ).toList.map[it.endNode].map[crearUsuario]
+	     		new ArrayList(r)
+	     		
+	     }
 	
 	
 	/* Extra */

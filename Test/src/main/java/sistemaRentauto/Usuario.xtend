@@ -26,4 +26,16 @@ class Usuario {
 		validado=false
 	}
 	
+	override def boolean equals(Object object){
+		if(object instanceof Usuario){
+			val otroUsuario = object as Usuario
+			otroUsuario.nombre.equals(this.nombre) && 
+			otroUsuario.apellido.equals(this.apellido) && 
+			otroUsuario.username.equals(this.username)			
+		}else{
+			false
+		}
+	
+	}
+	
 }

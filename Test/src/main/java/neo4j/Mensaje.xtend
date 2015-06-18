@@ -17,4 +17,17 @@ class Mensaje {
 	}
 	new (){}
 	
+	override def boolean equals(Object object){
+		if (object instanceof Mensaje){
+			val otroMsj= object as Mensaje
+			otroMsj.mensaje.equals(this.mensaje)
+		} else {
+			false
+		}
 	}
+	
+	
+	}
+	
+	
+	
