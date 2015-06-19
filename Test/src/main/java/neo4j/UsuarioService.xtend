@@ -43,17 +43,4 @@ class UsuarioService {
 		Neo4JService.run[home(it).existeMensaje(mensaje)]
 	}
 
-
-/*
-	def hermanos(Persona hermano1, Persona hermano2) {
-//		Neo4JService.run[home(it).hermanos(hermano1, hermano2)]
-	}
- 
-	def pradres(Persona persona) {
-		Neo4JService.run[
-			val home = home(it)
-			home.padres(persona).map[home.crearPersona(it)].toList
-		]
-	}
-	*/
 }
