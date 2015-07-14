@@ -1,15 +1,18 @@
 package cassandra
 
 import java.util.Date
+import java.util.List
+import rent.Auto
 import rent.Ubicacion
-import cassandra.CassandraHome
 
 class AutoService {
 	
 	//val CassandraHome home= new CassandraHome()
 		
-	def autosDisponiblesEn(Date fecha, Ubicacion ubicacion){
-		return CassandraHome.execute([new AutoHome().autosDisponiblesEn(fecha, ubicacion)])
+	def autosDisponiblesEn(Ubicacion ubicacion, Date fechaInicio, Date fechaFin){
+		return CassandraHome.ejecutar([|
+				new AutoHome().autosDisponiblesEn(ubicacion, fechaInicio, fechaFin)
+		])
 	}
 	
 }
